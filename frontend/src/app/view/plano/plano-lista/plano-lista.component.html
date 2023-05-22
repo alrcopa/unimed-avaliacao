@@ -1,0 +1,62 @@
+<h1 class="mt-4">Planos</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrum-bitem active">Consulta</li>
+</ol>
+<div class="container">
+    <form #consultaForm="ngForm" (submit)="consultar()">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="inputNome">Nome Beneficiario:</label>
+                <input type="text" [(ngModel)]="nome"
+                       name="nome" class="form-control"
+                       id="inputNome">
+            </div>
+
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i> Consultar
+                </button>
+
+                <button type="button"
+                        routerLink="/plano/form"
+                        class="btn btn-warning ml-1">
+                    <i class="fa fa-plus"></i> Novo
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <br />
+    <div class="row">
+        <div class="alert alert-warning" role="alert" *ngIf="message">
+            {{ message }}
+        </div>
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Beneficiario</th>
+                        <th>Nome</th>
+                        <th>Valor</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let s of lista" >
+                        <td *ngIf="s.beneficiario">{{ s.beneficiario.nome }} </td>
+                        <td *ngIf="!s.beneficiario">Sem beneficiario</td>
+                        <td>{{ s.nome }} </td>
+                        <td>{{ s.valor }} </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

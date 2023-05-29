@@ -3,7 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BeneficiarioService } from 'src/app/services/beneficiario.service';
 
-import { Beneficiario } from '../beneficiario';
+import { Beneficiario } from '../model/beneficiario';
+import {PlanoService} from "../../../services/plano.service";
+import {Plano} from "../../plano/model/plano";
 
 
 @Component({
@@ -13,20 +15,26 @@ import { Beneficiario } from '../beneficiario';
 })
 export class BeneficiarioFormComponent implements OnInit{
 
+  planos: Plano [] = [];
   beneficiario!: Beneficiario;
   success: boolean = false;
   errors!: String[];
   id!: number;
+  idPlano!: number;
 
   constructor(
-      private service: BeneficiarioService ,
       private router: Router,
-      private activatedRoute : ActivatedRoute
-      ) {
+      private activatedRoute : ActivatedRoute,
+      private service: BeneficiarioService ,
+      private planoService: PlanoService) {
     this.beneficiario = new Beneficiario();
   }
 
   ngOnInit(): void {
+    this.planoService
+      .getPlanos()
+      .subscribe( response => this.planos = response);
+
     let params : Observable<Params> = this.activatedRoute.params
     params.subscribe( urlParams => {
         this.id = urlParams['id'];
@@ -57,10 +65,7 @@ export class BeneficiarioFormComponent implements OnInit{
           this.errors = ['Erro ao atualizar o beneficiario.']
         })
 
-
     }else{
-
-      console.log(this.beneficiario)
       this.service
         .salvar(this.beneficiario)
           .subscribe( response => {

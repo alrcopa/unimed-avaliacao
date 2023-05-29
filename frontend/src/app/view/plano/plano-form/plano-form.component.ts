@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import { Beneficiario } from '../../beneficiario/beneficiario';
-import { BeneficiarioService } from 'src/app/services/beneficiario.service';
-import { Plano } from '../plano';
-import { PlanoService } from 'src/app/services/plano.service';
+import {Plano} from '../model/plano';
+import {PlanoService} from 'src/app/services/plano.service';
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-plano-form',
@@ -11,39 +11,62 @@ import { PlanoService } from 'src/app/services/plano.service';
 })
 export class PlanoFormComponent implements OnInit {
 
-  beneficiarios: Beneficiario[] = []
+
   plano: Plano;
   success: boolean = false;
   errors!: String[];
-  idBeneficiario!: number;
+  id!: number;
 
   constructor(
-    private beneficiarioService: BeneficiarioService,
-    private service: PlanoService
-  ) {
+    private router: Router,
+    private activatedRoute : ActivatedRoute,
+    private service: PlanoService) {
     this.plano = new Plano();
   }
 
   ngOnInit(): void {
-    this.beneficiarioService
-      .getBeneficiarios()
-      .subscribe( response => this.beneficiarios = response);
-
+    let params : Observable<Params> = this.activatedRoute.params
+    params.subscribe( urlParams => {
+      this.id = urlParams['id'];
+      if(this.id){
+        this.service
+          .getPlanoById(this.id)
+          .subscribe(
+            response => this.plano = response ,
+            errorResponse => this.plano = new Plano()
+          )
+      }
+    })
   }
 
   onSubmit(){
-    this.plano.beneficiario = new Beneficiario();
-    this.plano.beneficiario.id = this.idBeneficiario;
-    this.service
-      .salvar(this.plano)
-      .subscribe( response => {
-        this.success = true;
-        this.errors = [];
-        this.plano = new Plano();
-      } , errorResponse => {
-        this.success = false;
-        this.errors = errorResponse.error.errors;
-      })
+
+    if(this.id){
+
+      this.service
+        .atualizar(this.plano)
+        .subscribe(response => {
+          this.success = true;
+          this.errors = [];
+        }, errorResponse => {
+          this.errors = ['Erro ao atualizar o beneficiario.']
+        })
+
+    }else{
+      this.service
+        .salvar(this.plano)
+        .subscribe( response => {
+          this.success = true;
+          this.errors = [];
+          this.plano = new Plano();
+        } , errorResponse => {
+          this.success = false;
+          this.errors = errorResponse.error.errors;
+        })
+
+    }
+
+
   }
 
 }

@@ -14,4 +14,6 @@ public class BeneficiarioModel {
     private String cpf;
     private String email;
     private int idade;
+
+    private PlanoModel plano;
 }

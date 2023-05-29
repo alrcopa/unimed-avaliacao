@@ -12,5 +12,5 @@ public class PlanoModel {
     private Long id;
     private String nome;
     private double valor;
-    private BeneficiarioModel beneficiario;
+
 }

@@ -16,6 +16,23 @@
             </div>
         </div>
 
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Plano: </label>
+            <select class="form-control"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="idPlano">
+              <option value="">Selecione...</option>
+              <option *ngFor="let plano of planos"
+                      [ngValue]="plano.id">
+                {{ plano.nome }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
         <div class="row" *ngIf="beneficiario.id">
             <div class="col-md-6">
                 <div class="form-group">

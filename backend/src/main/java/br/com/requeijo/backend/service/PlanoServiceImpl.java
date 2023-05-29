@@ -1,23 +1,18 @@
 package br.com.requeijo.backend.service;
 
-import br.com.requeijo.backend.model.BeneficiarioModel;
 import br.com.requeijo.backend.model.PlanoModel;
-import br.com.requeijo.backend.repository.BeneficiarioRepository;
 import br.com.requeijo.backend.repository.PlanoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class PlanoServiceImpl {
 
-    @Autowired
-    private PlanoRepository repository;
-
-    @Autowired
-    private BeneficiarioRepository beneficiarioRepository;
+    private final PlanoRepository repository;
 
     public List<PlanoModel> listar() {
         return repository.findAll();
@@ -32,12 +27,6 @@ public class PlanoServiceImpl {
     }
 
     public int salvar(PlanoModel plano) {
-
-        Optional<BeneficiarioModel> beneficiario = Optional.of(plano.getBeneficiario());
-        final BeneficiarioModel beneficiarioModel = beneficiario.orElseThrow();
-
-        plano.setBeneficiario(beneficiarioRepository.findById(beneficiarioModel.getId()));
-
         return repository.insert(plano);
     }
 

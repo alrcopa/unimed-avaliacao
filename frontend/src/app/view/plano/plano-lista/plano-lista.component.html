@@ -6,7 +6,7 @@
     <form #consultaForm="ngForm" (submit)="consultar()">
         <div class="row">
             <div class="col-md-6">
-                <label for="inputNome">Nome Beneficiario:</label>
+                <label for="inputNome">Nome do plano:</label>
                 <input type="text" [(ngModel)]="nome"
                        name="nome" class="form-control"
                        id="inputNome">
@@ -40,19 +40,21 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Beneficiario</th>
                         <th>Nome</th>
                         <th>Valor</th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let s of lista" >
-                        <td *ngIf="s.beneficiario">{{ s.beneficiario.nome }} </td>
-                        <td *ngIf="!s.beneficiario">Sem beneficiario</td>
-                        <td>{{ s.nome }} </td>
-                        <td>{{ s.valor }} </td>
-
+                    <tr *ngFor="let plano of lista" >
+                        <td>{{ plano.nome }} </td>
+                        <td>{{ plano.valor }} </td>
+                      <td>
+                        <button class="btn btn-primary"
+                                routerLink="/plano/form/{{ plano.id }}">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                      </td>
                     </tr>
                 </tbody>
             </table>

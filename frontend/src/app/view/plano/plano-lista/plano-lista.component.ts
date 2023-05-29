@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlanoService } from 'src/app/services/plano.service';
 
-import { Plano } from '../plano';
+import { Plano } from '../model/plano';
 
 @Component({
   selector: 'app-plano-lista',
@@ -39,4 +39,6 @@ export class PlanoListaComponent implements OnInit {
         }
       });
   }
+
+
 }

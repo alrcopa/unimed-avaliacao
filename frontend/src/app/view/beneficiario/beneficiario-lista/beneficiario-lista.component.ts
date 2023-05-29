@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BeneficiarioService } from 'src/app/services/beneficiario.service';
 
-import { Beneficiario } from '../beneficiario';
+import { Beneficiario } from '../model/beneficiario';
 
 @Component({
   selector: 'app-beneficiario-lista',
